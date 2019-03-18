@@ -50,7 +50,10 @@ function getReport(
   if (newUntypedSymbols.length > 0) {
     longDescription += `| File | line:character | Symbol |
     |:-----:|:-----:|:-----:|
-    ${newUntypedSymbols.map(s => `| ${s.filename} | ${s.line}:${s.character} | ${s.symbol} |`).join("\n")}`;
+    ${newUntypedSymbols
+      .slice(0, 100)
+      .map(s => `| ${s.filename} | ${s.line}:${s.character} | ${s.symbol} |`)
+      .join("\n")}`;
   }
 
   return {
