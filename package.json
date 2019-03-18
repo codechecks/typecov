@@ -1,0 +1,45 @@
+{
+  "name": "codecheck-type-coverage",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node ./src/index.ts",
+    "build": "rm -rf ./lib && tsc",
+    "format": "prettier --list-different '**/*.{ts,json,md, gql}'",
+    "format:fix": "prettier --write '**/*.{ts,json,md,gql}'",
+    "tslint": "tslint -p ./tsconfig.json -e 'node_modules/**/*' 'src/**/*.ts'",
+    "tslint:fix": "tslint --fix --format stylish -p ./tsconfig.json -e 'node_modules/**/*' '**/*.ts'",
+    "tsc": "tsc --noEmit",
+    "lint": "yarn format && yarn tslint && yarn tsc",
+    "lint:fix": "yarn format:fix && yarn tslint:fix && yarn tsc",
+    "test:unit": "jest",
+    "test:watch": "jest --watch",
+    "test": "yarn lint && yarn test:unit",
+    "test:fix": "yarn lint:fix && yarn test:unit",
+    "prepublishOnly": "yarn test && yarn build"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.12",
+    "@types/lodash": "^4.14.121",
+    "@types/node": "^10.12.18",
+    "codechecks": "^0.0.36",
+    "jest": "^23.6.0",
+    "prettier": "^1.15.3",
+    "ts-essentials": "^2.0.2",
+    "ts-jest": "^23.10.5",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.1",
+    "tslint-language-service": "^0.9.9",
+    "typescript": "^3.2.2",
+    "typestrict": "^1.0.2"
+  },
+  "peerDependencies": {
+    "codechecks": "^0.0.36"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "type-coverage": "^1.10.0"
+  }
+}
