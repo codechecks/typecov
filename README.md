@@ -16,7 +16,7 @@ npm install --dev codecheck-type-coverage
 
 ## Usage
 
-Add to your `codecheck.js` file:
+Add to your `codechecks` file:
 
 ```typescript
 import { typeCoverage } from "codecheck-type-coverage";
@@ -30,7 +30,7 @@ export async function main() {
 
 ## API
 
-### typeCoverage(options: Options): Promise<void>
+### typeCoverage(options: Options): Promise\<void>
 
 #### options
 
@@ -39,4 +39,5 @@ Type: `{ tsconfigPath?: string; }`
 **tsconfigPath**
 
 Default: `tsconfig.json`<br>
-Description: Path to typescript project configuration
+
+Path to typescript project configuration
