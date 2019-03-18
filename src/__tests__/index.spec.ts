@@ -104,9 +104,11 @@ describe("type-coverage", () => {
   "calls": Array [
     Array [
       Object {
-        "longDescription": "New untyped symbols: 1| File | line:character | Symbol |
-    |:-----:|:-----:|:-----:|
-    | index.ts | 15:1 | res |",
+        "longDescription": "New untyped symbols: 1
+
+| File | line:character | Symbol |
+|:-----:|:-----:|:-----:|
+| index.ts | 15:1 | res |",
         "name": "Type Coverage",
         "shortDescription": "Change: -5.00% Total: 75.00%",
         "status": "success",

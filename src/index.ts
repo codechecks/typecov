@@ -48,12 +48,14 @@ function getReport(
 
   let longDescription = `New untyped symbols: ${newUntypedSymbols.length}`;
   if (newUntypedSymbols.length > 0) {
-    longDescription += `| File | line:character | Symbol |
-    |:-----:|:-----:|:-----:|
-    ${newUntypedSymbols
-      .slice(0, 100)
-      .map(s => `| ${s.filename} | ${s.line}:${s.character} | ${s.symbol} |`)
-      .join("\n")}`;
+    longDescription += `
+
+| File | line:character | Symbol |
+|:-----:|:-----:|:-----:|
+${newUntypedSymbols
+  .slice(0, 100)
+  .map(s => `| ${s.filename} | ${s.line}:${s.character} | ${s.symbol} |`)
+  .join("\n")}`;
   }
 
   return {
