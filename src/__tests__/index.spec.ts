@@ -52,12 +52,16 @@ describe("type-coverage", () => {
       allUntypedSymbols: [
         { filename: "index.ts", character: 1, line: 10, symbol: "app" },
         { filename: "index.ts", character: 1, line: 15, symbol: "res" },
+        { filename: "index.ts", character: 2, line: 15, symbol: "key" }, // here we test that plugin doesnt care about exact place of a symbol, just it's name
       ],
     } as TypeCoverageArtifact);
     typeCoverageMock.mockReturnValue({
       correctCount: 3,
       totalCount: 4,
-      anys: [{ file: "index.ts", character: 1, line: 15, text: "res" }],
+      anys: [
+        { file: "index.ts", character: 1, line: 15, text: "res" },
+        { file: "index.ts", character: 3, line: 16, text: "key" },
+      ],
       program: undefined as any,
     } as RawTypeCoverageReport);
 

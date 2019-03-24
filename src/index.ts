@@ -1,6 +1,7 @@
 import { codeChecks, CodeChecksReport } from "codechecks";
 import { lint as getTypeCoverageInfo } from "type-coverage";
 import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo } from "./types";
+import { groupBy } from "lodash";
 
 const ARTIFACT_KEY = "type-coverage";
 
@@ -66,19 +67,14 @@ ${newUntypedSymbols
   };
 }
 
-// @TODO: this is n^2. Fix it
 function findNew(headSymbols: SymbolInfo[], baseSymbols: SymbolInfo[]): SymbolInfo[] {
+  const baseSymbolsByFilename = groupBy(baseSymbols, s => s.filename);
   const newSymbols: SymbolInfo[] = [];
 
   for (const headSymbol of headSymbols) {
+    // we assess if symbols are the same only by looking at filename and symbol name (we ignore line and character)
     const baseSymbolMatch =
-      baseSymbols.filter(
-        s =>
-          s.filename === headSymbol.filename &&
-          s.line === headSymbol.line &&
-          s.character === headSymbol.character &&
-          s.symbol === headSymbol.symbol,
-      ).length > 0;
+      (baseSymbolsByFilename[headSymbol.filename] || []).filter(s => s.symbol === headSymbol.symbol).length > 0;
 
     if (!baseSymbolMatch) {
       newSymbols.push(headSymbol);
