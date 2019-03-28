@@ -1,12 +1,12 @@
-import { typeCoverage } from "../index";
+import { typeCoverageWatcher } from "../index";
 import { lint } from "type-coverage";
-import { codeChecks } from "codechecks";
+import { codeChecks } from "@codechecks/client";
 import { TypeCoverageArtifact, RawTypeCoverageReport } from "../types";
 
 type Mocked<T> = { [k in keyof T]: jest.Mock<T[k]> };
 
 describe("type-coverage", () => {
-  const codeChecksMock = require("../__mocks__/codechecks").codeChecks as Mocked<typeof codeChecks>;
+  const codeChecksMock = require("../__mocks__/@codechecks/client").codeChecks as Mocked<typeof codeChecks>;
   const typeCoverageMock = require("../__mocks__/type-coverage").lint as jest.Mock<typeof lint>;
   beforeEach(() => jest.resetAllMocks());
 
@@ -19,7 +19,7 @@ describe("type-coverage", () => {
       program: undefined as any,
     });
 
-    await typeCoverage({ tsconfigPath: "./tsconfig.json" });
+    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
 
     expect(codeChecks.report).toBeCalledTimes(0);
     expect(codeChecks.saveValue).toMatchInlineSnapshot(`
@@ -65,7 +65,7 @@ describe("type-coverage", () => {
       program: undefined as any,
     } as RawTypeCoverageReport);
 
-    await typeCoverage({ tsconfigPath: "./tsconfig.json" });
+    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
     expect(codeChecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
@@ -102,7 +102,7 @@ describe("type-coverage", () => {
       program: undefined as any,
     } as RawTypeCoverageReport);
 
-    await typeCoverage({ tsconfigPath: "./tsconfig.json" });
+    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
     expect(codeChecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
@@ -138,7 +138,7 @@ describe("type-coverage", () => {
       program: undefined as any,
     });
 
-    await typeCoverage({ tsconfigPath: "./tsconfig.json" });
+    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
     expect(codeChecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [

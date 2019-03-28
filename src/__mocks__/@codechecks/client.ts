@@ -1,4 +1,4 @@
-import * as CodeChecks from "codechecks";
+import * as CodeChecks from "@codechecks/client";
 import { join } from "path";
 
 export const codeChecks: Partial<typeof CodeChecks.codeChecks> = {
@@ -11,6 +11,6 @@ export const codeChecks: Partial<typeof CodeChecks.codeChecks> = {
   saveCollection: jest.fn(),
   isPr: jest.fn(),
   context: {
-    workspaceRoot: join(__dirname, ".."),
+    workspaceRoot: join(__dirname, "..", ".."),
   } as any,
 };

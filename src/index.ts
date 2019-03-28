@@ -1,4 +1,4 @@
-import { codeChecks, CodeChecksReport } from "codechecks";
+import { codeChecks, CodeChecksReport } from "@codechecks/client";
 import { lint as getTypeCoverageInfo } from "type-coverage";
 import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo } from "./types";
 import { groupBy } from "lodash";
@@ -9,7 +9,7 @@ const defaultOptions: Required<Options> = {
   tsconfigPath: "tsconfig.json",
 };
 
-export async function typeCoverage(_options: Options): Promise<void> {
+export async function typeCoverageWatcher(_options: Options): Promise<void> {
   const options: Required<Options> = {
     ...defaultOptions,
     ..._options,
