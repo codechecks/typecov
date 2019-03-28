@@ -1,5 +1,5 @@
 {
-  "name": "codecheck-type-coverage",
+  "name": "@codechecks/type-coverage-watcher",
   "description": "Track missing type coverage in TypeScript projects to ensure type safety",
   "keywords": [
     "type-coverage",
