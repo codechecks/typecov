@@ -1,4 +1,4 @@
-import { codeChecks, CodeChecksReport } from "codechecks";
+import { codeChecks, CodeChecksReport } from "@codechecks/client";
 import { lint as getTypeCoverageInfo } from "type-coverage";
 import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo } from "./types";
 import { groupBy } from "lodash";

@@ -1,12 +1,12 @@
 import { typeCoverageWatcher } from "../index";
 import { lint } from "type-coverage";
-import { codeChecks } from "codechecks";
+import { codeChecks } from "@codechecks/client";
 import { TypeCoverageArtifact, RawTypeCoverageReport } from "../types";
 
 type Mocked<T> = { [k in keyof T]: jest.Mock<T[k]> };
 
 describe("type-coverage", () => {
-  const codeChecksMock = require("../__mocks__/codechecks").codeChecks as Mocked<typeof codeChecks>;
+  const codeChecksMock = require("../__mocks__/@codechecks/client").codeChecks as Mocked<typeof codeChecks>;
   const typeCoverageMock = require("../__mocks__/type-coverage").lint as jest.Mock<typeof lint>;
   beforeEach(() => jest.resetAllMocks());
 
