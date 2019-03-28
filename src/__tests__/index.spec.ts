@@ -1,4 +1,4 @@
-import { typeCoverage } from "../index";
+import { typeCoverageWatcher } from "../index";
 import { lint } from "type-coverage";
 import { codeChecks } from "codechecks";
 import { TypeCoverageArtifact, RawTypeCoverageReport } from "../types";
@@ -19,7 +19,7 @@ describe("type-coverage", () => {
       program: undefined as any,
     });
 
-    await typeCoverage({ tsconfigPath: "./tsconfig.json" });
+    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
 
     expect(codeChecks.report).toBeCalledTimes(0);
     expect(codeChecks.saveValue).toMatchInlineSnapshot(`
@@ -65,7 +65,7 @@ describe("type-coverage", () => {
       program: undefined as any,
     } as RawTypeCoverageReport);
 
-    await typeCoverage({ tsconfigPath: "./tsconfig.json" });
+    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
     expect(codeChecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
@@ -102,7 +102,7 @@ describe("type-coverage", () => {
       program: undefined as any,
     } as RawTypeCoverageReport);
 
-    await typeCoverage({ tsconfigPath: "./tsconfig.json" });
+    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
     expect(codeChecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
@@ -138,7 +138,7 @@ describe("type-coverage", () => {
       program: undefined as any,
     });
 
-    await typeCoverage({ tsconfigPath: "./tsconfig.json" });
+    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
     expect(codeChecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [

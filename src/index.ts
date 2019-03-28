@@ -9,7 +9,7 @@ const defaultOptions: Required<Options> = {
   tsconfigPath: "tsconfig.json",
 };
 
-export async function typeCoverage(_options: Options): Promise<void> {
+export async function typeCoverageWatcher(_options: Options): Promise<void> {
   const options: Required<Options> = {
     ...defaultOptions,
     ..._options,
