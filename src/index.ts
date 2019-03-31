@@ -1,4 +1,4 @@
-import { codeChecks, CodeChecksReport } from "@codechecks/client";
+import { codechecks, CodeChecksReport } from "@codechecks/client";
 import { lint as getTypeCoverageInfo } from "type-coverage";
 import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo } from "./types";
 import { groupBy } from "lodash";
@@ -16,18 +16,20 @@ export async function typeCoverageWatcher(_options: Options): Promise<void> {
   };
   const _typeCoverage = await getTypeCoverageInfo(options.tsconfigPath, true, false);
   const typeCoverage = normalizeTypeCoverage(_typeCoverage);
-  await codeChecks.saveValue(ARTIFACT_KEY, typeCoverage);
+  await codechecks.saveValue(ARTIFACT_KEY, typeCoverage);
 
-  if (!codeChecks.isPr()) {
+  if (!codechecks.isPr()) {
     return;
   }
 
-  const baseTypeCoverage = await codeChecks.getValue<TypeCoverageArtifact>(ARTIFACT_KEY);
+  const baseTypeCoverage = await codechecks.getValue<TypeCoverageArtifact>(ARTIFACT_KEY);
 
   const report = getReport(typeCoverage, baseTypeCoverage);
 
-  await codeChecks.report(report);
+  await codechecks.report(report);
 }
+
+export default typeCoverageWatcher;
 
 function getReport(
   headTypeCoverageArtifact: TypeCoverageArtifact,

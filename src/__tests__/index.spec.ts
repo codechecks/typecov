@@ -1,17 +1,17 @@
 import { typeCoverageWatcher } from "../index";
 import { lint } from "type-coverage";
-import { codeChecks } from "@codechecks/client";
+import { codechecks } from "@codechecks/client";
 import { TypeCoverageArtifact, RawTypeCoverageReport } from "../types";
 
 type Mocked<T> = { [k in keyof T]: jest.Mock<T[k]> };
 
 describe("type-coverage", () => {
-  const codeChecksMock = require("../__mocks__/@codechecks/client").codeChecks as Mocked<typeof codeChecks>;
+  const codechecksMock = require("../__mocks__/@codechecks/client").codechecks as Mocked<typeof codechecks>;
   const typeCoverageMock = require("../__mocks__/type-coverage").lint as jest.Mock<typeof lint>;
   beforeEach(() => jest.resetAllMocks());
 
   it("should work not in PR context", async () => {
-    codeChecksMock.isPr.mockReturnValue(false);
+    codechecksMock.isPr.mockReturnValue(false);
     typeCoverageMock.mockReturnValue({
       correctCount: 2,
       totalCount: 2,
@@ -21,8 +21,8 @@ describe("type-coverage", () => {
 
     await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
 
-    expect(codeChecks.report).toBeCalledTimes(0);
-    expect(codeChecks.saveValue).toMatchInlineSnapshot(`
+    expect(codechecks.report).toBeCalledTimes(0);
+    expect(codechecks.saveValue).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
     Array [
@@ -45,8 +45,8 @@ describe("type-coverage", () => {
   });
 
   it("should work in PR context", async () => {
-    codeChecksMock.isPr.mockReturnValue(true);
-    codeChecksMock.getValue.mockReturnValue({
+    codechecksMock.isPr.mockReturnValue(true);
+    codechecksMock.getValue.mockReturnValue({
       typedSymbols: 2,
       totalSymbols: 4,
       allUntypedSymbols: [
@@ -66,7 +66,7 @@ describe("type-coverage", () => {
     } as RawTypeCoverageReport);
 
     await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
-    expect(codeChecks.report).toMatchInlineSnapshot(`
+    expect(codechecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
     Array [
@@ -89,8 +89,8 @@ describe("type-coverage", () => {
   });
 
   it("should work in PR context 2", async () => {
-    codeChecksMock.isPr.mockReturnValue(true);
-    codeChecksMock.getValue.mockReturnValue({
+    codechecksMock.isPr.mockReturnValue(true);
+    codechecksMock.getValue.mockReturnValue({
       typedSymbols: 4,
       totalSymbols: 5,
       allUntypedSymbols: [],
@@ -103,7 +103,7 @@ describe("type-coverage", () => {
     } as RawTypeCoverageReport);
 
     await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
-    expect(codeChecks.report).toMatchInlineSnapshot(`
+    expect(codechecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
     Array [
@@ -130,7 +130,7 @@ describe("type-coverage", () => {
   });
 
   it("should work in PR context without baseline", async () => {
-    codeChecksMock.isPr.mockReturnValue(true);
+    codechecksMock.isPr.mockReturnValue(true);
     typeCoverageMock.mockReturnValue({
       correctCount: 2,
       totalCount: 2,
@@ -139,7 +139,7 @@ describe("type-coverage", () => {
     });
 
     await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
-    expect(codeChecks.report).toMatchInlineSnapshot(`
+    expect(codechecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
     Array [

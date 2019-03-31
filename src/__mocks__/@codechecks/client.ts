@@ -1,7 +1,7 @@
-import * as CodeChecks from "@codechecks/client";
+import * as CC from "@codechecks/client";
 import { join } from "path";
 
-export const codeChecks: Partial<typeof CodeChecks.codeChecks> = {
+export const codechecks: Partial<typeof CC.codechecks> = {
   report: jest.fn(),
   success: jest.fn(),
   failure: jest.fn(),
