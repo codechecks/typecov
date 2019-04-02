@@ -23,15 +23,18 @@ yarn add --dev @codechecks/type-coverage-watcher
 
 ## Usage
 
-Add to your `codechecks.js` file:
+Add to your `codechecks.json` file:
 
-```typescript
-import { typeCoverageWatcher } from "@codechecks/type-coverage-watcher";
+<!-- prettier-ignore -->
+```json5
+{
+  "checks": [
+    {
+      "name": "type-coverage-watcher"
+    }
 
-export async function main() {
-  await typeCoverageWatcher();
-
-  // ...
+    // ...
+  ]
 }
 ```
 
