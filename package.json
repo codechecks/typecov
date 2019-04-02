@@ -14,7 +14,7 @@
   ],
   "repository": "codechecks/type-coverage-watcher",
   "author": "Chris Kaczor <chris@kaczor.io>",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
