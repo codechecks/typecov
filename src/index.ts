@@ -39,10 +39,16 @@ function getReport(
   const baseTypeCoverage = baseTypeCoverageArtifact
     ? (baseTypeCoverageArtifact.typedSymbols / baseTypeCoverageArtifact.totalSymbols) * 100
     : 0;
+  const newTypedSymbols =
+    headTypeCoverageArtifact.typedSymbols - (baseTypeCoverageArtifact ? baseTypeCoverageArtifact.typedSymbols : 0);
+  const newTypedSymbolsNote =
+    newTypedSymbols > 0 ? `New typed symbols: ${newTypedSymbols}` : `New untyped symbols: ${-newTypedSymbols}`;
 
   const coverageDiff = headTypeCoverage - baseTypeCoverage;
 
-  const shortDescription = `Change: ${renderSign(coverageDiff)}${perc(coverageDiff)} Total: ${perc(headTypeCoverage)}`;
+  const shortDescription = `Change: ${renderSign(coverageDiff)}${perc(coverageDiff)} Total: ${perc(
+    headTypeCoverage,
+  )} ${newTypedSymbolsNote}`;
 
   const newUntypedSymbols = findNew(
     headTypeCoverageArtifact.allUntypedSymbols,

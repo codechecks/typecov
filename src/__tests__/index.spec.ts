@@ -73,7 +73,7 @@ describe("type-coverage", () => {
       Object {
         "longDescription": "New untyped symbols: 0",
         "name": "Type Coverage",
-        "shortDescription": "Change: +25.00% Total: 75.00%",
+        "shortDescription": "Change: +25.00% Total: 75.00% New typed symbols: 1",
         "status": "success",
       },
     ],
@@ -114,7 +114,7 @@ describe("type-coverage", () => {
 |:-----:|:-----:|:-----:|
 | index.ts | 15:1 | res |",
         "name": "Type Coverage",
-        "shortDescription": "Change: -5.00% Total: 75.00%",
+        "shortDescription": "Change: -5.00% Total: 75.00% New untyped symbols: 1",
         "status": "success",
       },
     ],
@@ -146,7 +146,7 @@ describe("type-coverage", () => {
       Object {
         "longDescription": "New untyped symbols: 0",
         "name": "Type Coverage",
-        "shortDescription": "Change: +100.00% Total: 100.00%",
+        "shortDescription": "Change: +100.00% Total: 100.00% New typed symbols: 2",
         "status": "success",
       },
     ],
