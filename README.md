@@ -38,6 +38,8 @@ Add to your `codechecks.json` file:
 }
 ```
 
+Under the hood it uses [type-coverage](https://github.com/plantain-00/type-coverage) package.
+
 ## API
 
 ### typeCoverageWatcher(options: Options): Promise\<void>
