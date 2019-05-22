@@ -26,7 +26,7 @@ describe("type-coverage", () => {
 [MockFunction] {
   "calls": Array [
     Array [
-      "type-coverage",
+      "type-coverage:Type Coverage",
       Object {
         "allUntypedSymbols": Array [],
         "totalSymbols": 2,

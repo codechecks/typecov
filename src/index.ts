@@ -1,30 +1,21 @@
 import { codechecks, CodeChecksReport } from "@codechecks/client";
 import { lint as getTypeCoverageInfo } from "type-coverage";
-import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo } from "./types";
+import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo, NormalizedOptions } from "./types";
 import { groupBy } from "lodash";
 
-const ARTIFACT_KEY = "type-coverage";
-
-const defaultOptions: Required<Options> = {
-  tsconfigPath: "tsconfig.json",
-};
-
 export async function typeCoverageWatcher(_options: Options): Promise<void> {
-  const options: Required<Options> = {
-    ...defaultOptions,
-    ..._options,
-  };
+  const options = normalizeOptions(_options);
   const _typeCoverage = await getTypeCoverageInfo(options.tsconfigPath, true, false);
   const typeCoverage = normalizeTypeCoverage(_typeCoverage);
-  await codechecks.saveValue(ARTIFACT_KEY, typeCoverage);
+  await codechecks.saveValue(options.artifactName, typeCoverage);
 
   if (!codechecks.isPr()) {
     return;
   }
 
-  const baseTypeCoverage = await codechecks.getValue<TypeCoverageArtifact>(ARTIFACT_KEY);
+  const baseTypeCoverage = await codechecks.getValue<TypeCoverageArtifact>(options.artifactName);
 
-  const report = getReport(typeCoverage, baseTypeCoverage);
+  const report = getReport(typeCoverage, baseTypeCoverage, options);
 
   await codechecks.report(report);
 }
@@ -34,6 +25,7 @@ export default typeCoverageWatcher;
 function getReport(
   headTypeCoverageArtifact: TypeCoverageArtifact,
   baseTypeCoverageArtifact: TypeCoverageArtifact | undefined,
+  options: NormalizedOptions,
 ): CodeChecksReport {
   const headTypeCoverage = (headTypeCoverageArtifact.typedSymbols / headTypeCoverageArtifact.totalSymbols) * 100;
   const baseTypeCoverage = baseTypeCoverageArtifact
@@ -68,7 +60,7 @@ ${newUntypedSymbols
   }
 
   return {
-    name: "Type Coverage",
+    name: options.name,
     status: "success",
     shortDescription,
     longDescription,
@@ -116,4 +108,13 @@ function renderSign(value: number): string {
     // we dont' render signs for negative (it's part of a number xD) or 0
     return "";
   }
+}
+
+function normalizeOptions(options: Options): NormalizedOptions {
+  const name = options.name || "Type Coverage";
+  return {
+    name,
+    tsconfigPath: options.name || "tsconfig.json",
+    artifactName: `type-coverage:${name}`,
+  };
 }
