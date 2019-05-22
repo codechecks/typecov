@@ -23,19 +23,12 @@ yarn add --dev @codechecks/type-coverage-watcher
 
 ## Usage
 
-Add to your `codechecks.json` file:
+Add to your `codechecks.yml` file:
 
-<!-- prettier-ignore -->
-```json5
-{
-  "checks": [
-    {
-      "name": "type-coverage-watcher"
-    }
-
-    // ...
-  ]
-}
+```yml
+checks:
+  - name: type-coverage-watcher
+  # ...
 ```
 
 Under the hood it uses [type-coverage](https://github.com/plantain-00/type-coverage) package.
@@ -48,7 +41,8 @@ Under the hood it uses [type-coverage](https://github.com/plantain-00/type-cover
 
 ```typescript
 interface Options {
-  tsconfigPath?: string;
+  tsconfigPath?: string; //defaults to tsconfig.json
+  name?: string; // defaults to Type Coverage
 }
 ```
 
@@ -57,6 +51,12 @@ interface Options {
 optional `string`<br>\
 Default: `tsconfig.json`<br>\
 Path to typescript project configuration
+
+##### name
+
+optional `string`<br>\
+Defaults: `Type Coverage`<br>\
+Specify the name for check. Might be useful in monorepos.
 
 ## Contributing
 

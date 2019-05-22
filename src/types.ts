@@ -2,6 +2,13 @@ import { AnyInfo } from "type-coverage/dist/interfaces";
 
 export interface Options {
   tsconfigPath?: string;
+  name?: string;
+}
+
+export interface NormalizedOptions {
+  tsconfigPath: string;
+  name: string;
+  artifactName: string;
 }
 
 export interface TypeCoverageArtifact {
