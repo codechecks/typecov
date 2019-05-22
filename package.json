@@ -35,7 +35,7 @@
     "prepublishOnly": "yarn test && yarn build"
   },
   "devDependencies": {
-    "@codechecks/client": "^0.0.52",
+    "@codechecks/client": "^0.1.0",
     "@types/jest": "^23.3.12",
     "@types/lodash": "^4.14.121",
     "@types/node": "^10.12.18",
@@ -50,7 +50,7 @@
     "typestrict": "^1.0.2"
   },
   "peerDependencies": {
-    "@codechecks/client": "^0.0.48"
+    "@codechecks/client": "^0.1.0"
   },
   "dependencies": {
     "lodash": "^4.17.11",
