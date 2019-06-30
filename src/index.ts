@@ -110,7 +110,7 @@ function renderSign(value: number): string {
   }
 }
 
-function normalizeOptions(options: Options): NormalizedOptions {
+function normalizeOptions(options: Options = {}): NormalizedOptions {
   const name = options.name || "Type Coverage";
   return {
     name,
