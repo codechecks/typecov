@@ -6,6 +6,7 @@
   <p align="center">
     <a href="https://circleci.com/gh/codechecks/type-coverage-watcher"><img alt="Build Status" src="https://circleci.com/gh/codechecks/type-coverage-watcher/tree/master.svg?style=svg"></a>
     <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
+    <a href="https://codechecks.io"><img src="https://raw.githubusercontent.com/codechecks/docs/master/images/badges/badge-default.svg?sanitize=true" alt="codechecks.io" /></a>
   </p>
 </p>
 
@@ -15,13 +16,9 @@
 npm add --save-dev @codechecks/type-coverage-watcher
 ```
 
-or
-
-```sh
-yarn add --dev @codechecks/type-coverage-watcher
-```
-
 ## Usage
+
+Are you new to codechecks? Check out [getting started guide (it's simple)](https://github.com/codechecks/docs/blob/master/getting-started.md)!
 
 Add to your `codechecks.yml` file:
 
