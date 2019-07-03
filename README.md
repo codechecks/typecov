@@ -6,6 +6,7 @@
   <p align="center">
     <a href="https://circleci.com/gh/codechecks/type-coverage-watcher"><img alt="Build Status" src="https://circleci.com/gh/codechecks/type-coverage-watcher/tree/master.svg?style=svg"></a>
     <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
+    <a href="https://codechecks.io"><img src="https://raw.githubusercontent.com/codechecks/docs/master/images/badges/badge-default.svg?sanitize=true" alt="codechecks.io" /></a>
   </p>
 </p>
 
