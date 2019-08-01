@@ -40,6 +40,10 @@ Under the hood it uses [type-coverage](https://github.com/plantain-00/type-cover
 interface Options {
   tsconfigPath?: string; //defaults to tsconfig.json
   name?: string; // defaults to Type Coverage
+  ignoreFiles?: string[];
+  ignoreCatch?: boolean;
+  atLeast?: number;
+  strict?: boolean;
 }
 ```
 
@@ -54,6 +58,30 @@ Path to typescript project configuration
 optional `string`<br>\
 Defaults: `Type Coverage`<br>\
 Specify the name for check. Might be useful in monorepos.
+
+##### ignoreFiles
+
+optional `string[]`<br>\
+Defaults: `undefined`<br>\
+Specify the ignored for checks files.
+
+##### ignoreCatch
+
+optional `string`<br>\
+Defaults: `undefined`<br>\
+See [type-coverage's description](https://github.com/plantain-00/type-coverage#ignore-catch) for the reference.
+
+##### atLeast
+
+optional `string`<br>\
+Defaults: `undefined`<br>\
+Fail if coverage rate < this value.
+
+##### strict
+
+optional `string`<br>\
+Defaults: `undefined`<br>\
+See [type-coverage's description](https://github.com/plantain-00/type-coverage#strict-mode) for the reference.
 
 ## Contributing
 
