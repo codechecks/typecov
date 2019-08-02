@@ -2,6 +2,7 @@ import { codechecks, CodeChecksReport } from "@codechecks/client";
 import { lint as getTypeCoverageInfo } from "type-coverage-core";
 import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo, NormalizedOptions } from "./types";
 import { groupBy } from "lodash";
+import { formatShortDescription } from "./formatters";
 
 export async function typeCoverageWatcher(_options: Options): Promise<void> {
   const options = normalizeOptions(_options);
@@ -36,21 +37,19 @@ function getReport(
   const baseTypeCoverage = baseTypeCoverageArtifact
     ? (baseTypeCoverageArtifact.typedSymbols / baseTypeCoverageArtifact.totalSymbols) * 100
     : 0;
-  const newTypedSymbols =
-    headTypeCoverageArtifact.typedSymbols - (baseTypeCoverageArtifact ? baseTypeCoverageArtifact.typedSymbols : 0);
-  const newTypedSymbolsNote =
-    newTypedSymbols > 0 ? `New typed symbols: ${newTypedSymbols}` : `New untyped symbols: ${-newTypedSymbols}`;
-
   const coverageDiff = headTypeCoverage - baseTypeCoverage;
-
-  const shortDescription = `Change: ${renderSign(coverageDiff)}${perc(coverageDiff)}${
-    options.atLeast === undefined ? "" : ` (limit ${perc(options.atLeast)})`
-  } Total: ${perc(headTypeCoverage)} ${newTypedSymbolsNote}`;
 
   const newUntypedSymbols = findNew(
     headTypeCoverageArtifact.allUntypedSymbols,
     baseTypeCoverageArtifact ? baseTypeCoverageArtifact.allUntypedSymbols : [],
   );
+
+  const shortDescription = formatShortDescription({
+    coverageDiffPerc: coverageDiff,
+    atLeast: options.atLeast,
+    headTypeCoveragePerc: headTypeCoverage,
+    newUntypedSymbols: newUntypedSymbols.length,
+  });
 
   let longDescription = `New untyped symbols: ${newUntypedSymbols.length}`;
   if (newUntypedSymbols.length > 0) {
@@ -91,10 +90,6 @@ function findNew(headSymbols: SymbolInfo[], baseSymbols: SymbolInfo[]): SymbolIn
   return newSymbols;
 }
 
-function perc(n: number): string {
-  return n.toFixed(2) + "%";
-}
-
 function normalizeTypeCoverage(rawTypeCoverage: RawTypeCoverageReport): TypeCoverageArtifact {
   return {
     typedSymbols: rawTypeCoverage.correctCount,
@@ -106,15 +101,6 @@ function normalizeTypeCoverage(rawTypeCoverage: RawTypeCoverageReport): TypeCove
       symbol: a.text,
     })),
   };
-}
-
-function renderSign(value: number): string {
-  if (value > 0) {
-    return "+";
-  } else {
-    // we dont' render signs for negative (it's part of a number xD) or 0
-    return "";
-  }
 }
 
 function normalizeOptions(options: Options = {}): NormalizedOptions {
