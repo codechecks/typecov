@@ -1,5 +1,5 @@
 import { typeCoverageWatcher } from "../index";
-import { lint } from "type-coverage";
+import { lint } from "type-coverage-core";
 import { codechecks } from "@codechecks/client";
 import { TypeCoverageArtifact, RawTypeCoverageReport } from "../types";
 
@@ -7,7 +7,7 @@ type Mocked<T> = { [k in keyof T]: jest.Mock<T[k]> };
 
 describe("type-coverage", () => {
   const codechecksMock = require("../__mocks__/@codechecks/client").codechecks as Mocked<typeof codechecks>;
-  const typeCoverageMock = require("../__mocks__/type-coverage").lint as jest.Mock<typeof lint>;
+  const typeCoverageMock = require("../__mocks__/type-coverage-core").lint as jest.Mock<typeof lint>;
   beforeEach(() => jest.resetAllMocks());
 
   it("should work not in PR context", async () => {
@@ -148,6 +148,38 @@ describe("type-coverage", () => {
         "name": "Type Coverage",
         "shortDescription": "Change: +100.00% Total: 100.00% New typed symbols: 2",
         "status": "success",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`);
+  });
+
+  it("should handle atLeast option", async () => {
+    codechecksMock.isPr.mockReturnValue(true);
+    typeCoverageMock.mockReturnValue({
+      correctCount: 4,
+      totalCount: 10,
+      anys: [],
+      program: undefined as any,
+    });
+
+    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json", atLeast: 50 });
+    expect(codechecks.report).toMatchInlineSnapshot(`
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "longDescription": "New untyped symbols: 0",
+        "name": "Type Coverage",
+        "shortDescription": "Change: +40.00% (limit 50.00%) Total: 40.00% New typed symbols: 4",
+        "status": "failure",
       },
     ],
   ],

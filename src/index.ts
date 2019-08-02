@@ -1,11 +1,16 @@
 import { codechecks, CodeChecksReport } from "@codechecks/client";
-import { lint as getTypeCoverageInfo } from "type-coverage";
+import { lint as getTypeCoverageInfo } from "type-coverage-core";
 import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo, NormalizedOptions } from "./types";
 import { groupBy } from "lodash";
 
 export async function typeCoverageWatcher(_options: Options): Promise<void> {
   const options = normalizeOptions(_options);
-  const _typeCoverage = await getTypeCoverageInfo(options.tsconfigPath, true, false);
+  const _typeCoverage = await getTypeCoverageInfo(options.tsconfigPath, {
+    debug: false,
+    ignoreCatch: _options.ignoreCatch,
+    ignoreFiles: _options.ignoreFiles,
+    strict: _options.strict,
+  });
   const typeCoverage = normalizeTypeCoverage(_typeCoverage);
   await codechecks.saveValue(options.artifactName, typeCoverage);
 
@@ -38,9 +43,9 @@ function getReport(
 
   const coverageDiff = headTypeCoverage - baseTypeCoverage;
 
-  const shortDescription = `Change: ${renderSign(coverageDiff)}${perc(coverageDiff)} Total: ${perc(
-    headTypeCoverage,
-  )} ${newTypedSymbolsNote}`;
+  const shortDescription = `Change: ${renderSign(coverageDiff)}${perc(coverageDiff)}${
+    options.atLeast === undefined ? "" : ` (limit ${perc(options.atLeast)})`
+  } Total: ${perc(headTypeCoverage)} ${newTypedSymbolsNote}`;
 
   const newUntypedSymbols = findNew(
     headTypeCoverageArtifact.allUntypedSymbols,
@@ -59,9 +64,11 @@ ${newUntypedSymbols
   .join("\n")}`;
   }
 
+  const status = options.atLeast === undefined || headTypeCoverage > options.atLeast ? "success" : "failure";
+
   return {
     name: options.name,
-    status: "success",
+    status,
     shortDescription,
     longDescription,
   };
@@ -116,5 +123,6 @@ function normalizeOptions(options: Options = {}): NormalizedOptions {
     name,
     tsconfigPath: options.name || "tsconfig.json",
     artifactName: `type-coverage:${name}`,
+    atLeast: options.atLeast,
   };
 }
