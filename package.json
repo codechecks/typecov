@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.11",
-    "type-coverage-core": "^2.2.0"
+    "type-coverage": "^1.10.0"
   },
   "publishConfig": {
     "access": "public"
