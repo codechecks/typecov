@@ -73,8 +73,9 @@ See [type-coverage's description](https://github.com/plantain-00/type-coverage#i
 
 ##### atLeast
 
-optional `string`<br>\
+optional `number`<br>\
 Defaults: `undefined`<br>\
+Example: `atLeast: 99`<br>\
 Fail if coverage rate < this value.
 
 ##### strict
