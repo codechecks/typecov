@@ -56,6 +56,9 @@
     "lodash": "^4.17.11",
     "type-coverage-core": "^2.2.0"
   },
+  "files": [
+    "lib/**/*"
+  ],
   "publishConfig": {
     "access": "public"
   },
