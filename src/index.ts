@@ -4,7 +4,7 @@ import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo, Norma
 import { groupBy } from "lodash";
 import { formatShortDescription } from "./formatters";
 
-export async function typeCoverageWatcher(_options: Options): Promise<void> {
+export async function typeCoverageWatcher(_options: Options = {}): Promise<void> {
   const options = normalizeOptions(_options);
   const _typeCoverage = await getTypeCoverageInfo(options.tsconfigPath, {
     debug: false,
