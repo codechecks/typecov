@@ -10,18 +10,18 @@
   </p>
 </p>
 
-## Install
-
-```sh
-npm install --save-dev typecov
-```
-
 ## Features
 
 👉 track type coverage defined as `the count of symbols whose type is not any / the total count of symbols`<br>
 👉 display type coverage directly in GitHub<br>
 👉 set minimal type coverage and automatically fail PRs<br>
 👉 supports monorepos<br>
+
+## Install
+
+```sh
+npm install --save-dev typecov
+```
 
 ## Usage
 
