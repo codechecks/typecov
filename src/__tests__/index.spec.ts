@@ -1,4 +1,4 @@
-import { typeCoverageWatcher } from "../index";
+import { typecov } from "../index";
 import { lint } from "type-coverage-core";
 import { codechecks } from "@codechecks/client";
 import { TypeCoverageArtifact, RawTypeCoverageReport } from "../types";
@@ -19,14 +19,14 @@ describe("type-coverage", () => {
       program: undefined as any,
     });
 
-    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
+    await typecov({ tsconfigPath: "./tsconfig.json" });
 
     expect(codechecks.report).toBeCalledTimes(0);
     expect(codechecks.saveValue).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
     Array [
-      "type-coverage:Type Coverage",
+      "typecov/default",
       Object {
         "allUntypedSymbols": Array [],
         "totalSymbols": 2,
@@ -65,14 +65,16 @@ describe("type-coverage", () => {
       program: undefined as any,
     } as RawTypeCoverageReport);
 
-    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
+    await typecov({ tsconfigPath: "./tsconfig.json" });
     expect(codechecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
     Array [
       Object {
-        "longDescription": "New untyped symbols: 0",
-        "name": "Type Coverage",
+        "longDescription": "### Current type coverage: 75.00%
+
+### New untyped symbols: 0",
+        "name": "TypeCov",
         "shortDescription": "Change: +25.00% Total: 75.00% New untyped symbols: 0",
         "status": "success",
       },
@@ -102,18 +104,20 @@ describe("type-coverage", () => {
       program: undefined as any,
     } as RawTypeCoverageReport);
 
-    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
+    await typecov({ tsconfigPath: "./tsconfig.json" });
     expect(codechecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
     Array [
       Object {
-        "longDescription": "New untyped symbols: 1
+        "longDescription": "### Current type coverage: 75.00%
+
+### New untyped symbols: 1
 
 | File | line:character | Symbol |
 |:-----:|:-----:|:-----:|
 | index.ts | 15:1 | res |",
-        "name": "Type Coverage",
+        "name": "TypeCov",
         "shortDescription": "Change: -5.00% Total: 75.00% New untyped symbols: 1",
         "status": "success",
       },
@@ -138,15 +142,17 @@ describe("type-coverage", () => {
       program: undefined as any,
     });
 
-    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json" });
+    await typecov({ tsconfigPath: "./tsconfig.json" });
     expect(codechecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
     Array [
       Object {
-        "longDescription": "New untyped symbols: 0",
-        "name": "Type Coverage",
-        "shortDescription": "Change: +100.00% Total: 100.00% New untyped symbols: 0",
+        "longDescription": "### Current type coverage: 100.00%
+
+### New untyped symbols: 0",
+        "name": "TypeCov",
+        "shortDescription": "New type coverage report!",
         "status": "success",
       },
     ],
@@ -170,15 +176,17 @@ describe("type-coverage", () => {
       program: undefined as any,
     });
 
-    await typeCoverageWatcher({ tsconfigPath: "./tsconfig.json", atLeast: 50 });
+    await typecov({ tsconfigPath: "./tsconfig.json", atLeast: 50 });
     expect(codechecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
     Array [
       Object {
-        "longDescription": "New untyped symbols: 0",
-        "name": "Type Coverage",
-        "shortDescription": "Change: +40.00% Total: 40.00% (min. 50.00%) New untyped symbols: 0",
+        "longDescription": "### Current type coverage: 40.00%
+Minimum acceptable type coverage: 50.00% — 🔴
+### New untyped symbols: 0",
+        "name": "TypeCov",
+        "shortDescription": "New type coverage report!",
         "status": "failure",
       },
     ],

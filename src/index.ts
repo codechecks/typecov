@@ -2,9 +2,9 @@ import { codechecks, CodeChecksReport } from "@codechecks/client";
 import { lint as getTypeCoverageInfo } from "type-coverage-core";
 import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo, NormalizedOptions } from "./types";
 import { groupBy } from "lodash";
-import { formatShortDescription } from "./formatters";
+import { formatShortDescription, perc, getDescriptionAboutThreshold } from "./formatters";
 
-export async function typeCoverageWatcher(_options: Options = {}): Promise<void> {
+export async function typecov(_options: Options = {}): Promise<void> {
   const options = normalizeOptions(_options);
   const _typeCoverage = await getTypeCoverageInfo(options.tsconfigPath, {
     debug: false,
@@ -26,7 +26,7 @@ export async function typeCoverageWatcher(_options: Options = {}): Promise<void>
   await codechecks.report(report);
 }
 
-export default typeCoverageWatcher;
+export default typecov;
 
 function getReport(
   headTypeCoverageArtifact: TypeCoverageArtifact,
@@ -44,14 +44,18 @@ function getReport(
     baseTypeCoverageArtifact ? baseTypeCoverageArtifact.allUntypedSymbols : [],
   );
 
+  const status = options.atLeast === undefined || headTypeCoverage > options.atLeast ? "success" : "failure";
+
   const shortDescription = formatShortDescription({
     coverageDiffPerc: coverageDiff,
-    atLeast: options.atLeast,
     headTypeCoveragePerc: headTypeCoverage,
     newUntypedSymbols: newUntypedSymbols.length,
+    baseReportExisted: !!baseTypeCoverageArtifact,
   });
 
-  let longDescription = `New untyped symbols: ${newUntypedSymbols.length}`;
+  let longDescription = `### Current type coverage: ${perc(headTypeCoverage)}
+${getDescriptionAboutThreshold(options, status)}
+### New untyped symbols: ${newUntypedSymbols.length}`;
   if (newUntypedSymbols.length > 0) {
     longDescription += `
 
@@ -62,8 +66,6 @@ ${newUntypedSymbols
   .map(s => `| ${s.filename} | ${s.line}:${s.character} | ${s.symbol} |`)
   .join("\n")}`;
   }
-
-  const status = options.atLeast === undefined || headTypeCoverage > options.atLeast ? "success" : "failure";
 
   return {
     name: options.name,
@@ -104,11 +106,11 @@ function normalizeTypeCoverage(rawTypeCoverage: RawTypeCoverageReport): TypeCove
 }
 
 function normalizeOptions(options: Options = {}): NormalizedOptions {
-  const name = options.name || "Type Coverage";
+  const name = options.name ? `TypeCov (${options.name})` : "TypeCov";
   return {
     name,
-    tsconfigPath: options.name || "tsconfig.json",
-    artifactName: `type-coverage:${name}`,
+    tsconfigPath: options.tsconfigPath || "tsconfig.json",
+    artifactName: `typecov/${options.name || "default"}`,
     atLeast: options.atLeast,
   };
 }

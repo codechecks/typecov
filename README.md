@@ -1,10 +1,10 @@
 <p align="center">
   <img src="./meta/check.png" width="700" alt="codechecks.io">
-  <h3 align="center">Type Coverage Watcher</h3>
+  <h3 align="center">TypeCov</h3>
   <p align="center">Track missing type coverage in TypeScript projects to ensure type safety</p>
 
   <p align="center">
-    <a href="https://circleci.com/gh/codechecks/type-coverage-watcher"><img alt="Build Status" src="https://circleci.com/gh/codechecks/type-coverage-watcher/tree/master.svg?style=svg"></a>
+    <a href="https://circleci.com/gh/codechecks/typecov"><img alt="Build Status" src="https://circleci.com/gh/codechecks/typecov/tree/master.svg?style=svg"></a>
     <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
     <a href="https://codechecks.io"><img src="https://raw.githubusercontent.com/codechecks/docs/master/images/badges/badge-default.svg?sanitize=true" alt="codechecks.io" /></a>
   </p>
@@ -13,75 +13,88 @@
 ## Install
 
 ```sh
-npm add --save-dev @codechecks/type-coverage-watcher
+npm install --save-dev typecov
 ```
+
+## Features
+
+👉 track type coverage defined as `the count of symbols whose type is not any / the total count of symbols`<br>
+👉 display type coverage directly in GitHub<br>
+👉 set minimal type coverage and automatically fail PRs<br>
+👉 supports monorepos<br>
 
 ## Usage
 
+TypeCov is built on [CodeChecks.io](https://codechecks.io) - open source code review automation platform.
+
 Are you new to codechecks? Check out [getting started guide (it's simple)](https://github.com/codechecks/docs/blob/master/getting-started.md)!
 
-Add to your `codechecks.yml` file:
+Install package and then add to your `codechecks.yml` file:
 
 ```yml
 checks:
-  - name: type-coverage-watcher
-  # ...
+  - name: typecov
+    options:
+      # atLeast: 99
+      # name: webapp
+      # tsconfigPath: ./tsconfig.prod.json
 ```
 
 Under the hood it uses [type-coverage](https://github.com/plantain-00/type-coverage) package.
 
 ## API
 
-### typeCoverageWatcher(options: Options): Promise\<void>
+### typecov(options: Options): Promise\<void>
 
 #### options
 
 ```typescript
 interface Options {
+  name?: string; // will be added to check name
   tsconfigPath?: string; //defaults to tsconfig.json
-  name?: string; // defaults to Type Coverage
+  atLeast?: number;
   ignoreFiles?: string[];
   ignoreCatch?: boolean;
-  atLeast?: number;
   strict?: boolean;
 }
 ```
 
-##### tsconfigPath
-
-optional `string`<br>\
-Default: `tsconfig.json`<br>\
-Path to typescript project configuration
-
 ##### name
 
-optional `string`<br>\
-Defaults: `Type Coverage`<br>\
+optional `string`<br>
+Defaults: `Type Coverage`<br>
 Specify the name for check. Might be useful in monorepos.
 
-##### ignoreFiles
+##### tsconfigPath
 
-optional `string[]`<br>\
-Defaults: `undefined`<br>\
-Specify the ignored for checks files.
-
-##### ignoreCatch
-
-optional `string`<br>\
-Defaults: `undefined`<br>\
-See [type-coverage's description](https://github.com/plantain-00/type-coverage#ignore-catch) for the reference.
+optional `string`<br>
+Default: `tsconfig.json`<br>
+Path to typescript project configuration
 
 ##### atLeast
 
-optional `number`<br>\
-Defaults: `undefined`<br>\
-Example: `atLeast: 99`<br>\
+optional `number`<br>
+Defaults: `undefined`<br>
+Example: `atLeast: 99`<br>
 Fail if coverage rate < this value.
+
+##### ignoreFiles
+
+optional `string[]`<br>
+Defaults: `undefined`<br>
+Specify the ignored for checks files.
+See [type-coverage's description](https://github.com/plantain-00/type-coverage#ignore-files) for the reference.
+
+##### ignoreCatch
+
+optional `string`<br>
+Defaults: `undefined`<br>
+See [type-coverage's description](https://github.com/plantain-00/type-coverage#ignore-catch) for the reference.
 
 ##### strict
 
-optional `string`<br>\
-Defaults: `undefined`<br>\
+optional `string`<br>
+Defaults: `undefined`<br>
 See [type-coverage's description](https://github.com/plantain-00/type-coverage#strict-mode) for the reference.
 
 ## Contributing

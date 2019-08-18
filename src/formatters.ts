@@ -1,21 +1,26 @@
+import { Options } from "./types";
+import { CodeChecksReportStatus } from "@codechecks/client";
+
 interface FormatShortDescriptionArgs {
   coverageDiffPerc: number;
   headTypeCoveragePerc: number;
   newUntypedSymbols: number;
-  atLeast?: number;
+  baseReportExisted: boolean;
 }
 
 export function formatShortDescription({
   coverageDiffPerc,
-  atLeast,
   headTypeCoveragePerc,
   newUntypedSymbols,
+  baseReportExisted,
 }: FormatShortDescriptionArgs): string {
+  if (!baseReportExisted) {
+    return "New type coverage report!";
+  }
   const change = renderSign(coverageDiffPerc) + perc(coverageDiffPerc);
-  const limit = atLeast === undefined ? "" : ` (min. ${perc(atLeast)})`;
   const total = perc(headTypeCoveragePerc);
 
-  return `Change: ${change} Total: ${total}${limit} New untyped symbols: ${newUntypedSymbols}`;
+  return `Change: ${change} Total: ${total} New untyped symbols: ${newUntypedSymbols}`;
 }
 
 export function perc(n: number): string {
@@ -29,4 +34,12 @@ export function renderSign(value: number): string {
     // we dont' render signs for negative (it's part of a number xD) or 0
     return "";
   }
+}
+
+export function getDescriptionAboutThreshold(options: Options, status: CodeChecksReportStatus): string {
+  if (!options.atLeast) {
+    return "";
+  }
+
+  return `Minimum acceptable type coverage: ${perc(options.atLeast)} — ${status == "success" ? "✅" : "🔴"}`;
 }
