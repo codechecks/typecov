@@ -20,6 +20,10 @@ export function formatShortDescription({
   const change = renderSign(coverageDiffPerc) + perc(coverageDiffPerc);
   const total = perc(headTypeCoveragePerc);
 
+  if (coverageDiffPerc === 0) {
+    return `No changes detected. Total: ${total}`;
+  }
+
   return `Change: ${change} Total: ${total} New untyped symbols: ${newUntypedSymbols}`;
 }
 
