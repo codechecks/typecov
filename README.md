@@ -17,6 +17,10 @@
 👉 set minimal type coverage and automatically fail PRs<br>
 👉 supports monorepos<br>
 
+## Motivation
+
+Despite using `--strict` mode in tsconfig you can still have `any`s in your codebase. This tool gives you a good overview if PR that you are going to merge increases or decreases overall type coverage and where exactly types should be improved.
+
 ## Install
 
 ```sh
