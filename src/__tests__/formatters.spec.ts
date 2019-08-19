@@ -22,4 +22,15 @@ describe("formatters > formatShortDescription", () => {
 
     expect(actual).toMatchInlineSnapshot(`"Change: +1.40% Total: 90.20% New untyped symbols: 1"`);
   });
+
+  it("should display shorter message for no change", () => {
+    const actual = formatShortDescription({
+      coverageDiffPerc: 0,
+      headTypeCoveragePerc: 90.2,
+      newUntypedSymbols: 1,
+      baseReportExisted: true,
+    });
+
+    expect(actual).toMatchInlineSnapshot(`"No changes detected. Total: 90.20%"`);
+  });
 });
