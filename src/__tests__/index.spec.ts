@@ -200,4 +200,38 @@ Minimum acceptable type coverage: 50.00% — 🔴
 }
 `);
   });
+
+  it("should handle atLeast option when it is 100%", async () => {
+    codechecksMock.isPr.mockReturnValue(true);
+    typeCoverageMock.mockReturnValue({
+      correctCount: 10,
+      totalCount: 10,
+      anys: [],
+      program: undefined as any,
+    });
+
+    await typecov({ tsconfigPath: "./tsconfig.json", atLeast: 100 });
+    expect(codechecks.report).toMatchInlineSnapshot(`
+[MockFunction] {
+  "calls": Array [
+    Array [
+      Object {
+        "longDescription": "### Current type coverage: 100.00%
+Minimum acceptable type coverage: 100.00% — ✅
+### New untyped symbols: 0",
+        "name": "TypeCov",
+        "shortDescription": "New type coverage report!",
+        "status": "success",
+      },
+    ],
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
+`);
+  });
 });
