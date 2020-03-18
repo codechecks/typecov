@@ -44,7 +44,7 @@ function getReport(
     baseTypeCoverageArtifact ? baseTypeCoverageArtifact.allUntypedSymbols : [],
   );
 
-  const status = options.atLeast === undefined || headTypeCoverage > options.atLeast ? "success" : "failure";
+  const status = options.atLeast === undefined || headTypeCoverage >= options.atLeast ? "success" : "failure";
 
   const shortDescription = formatShortDescription({
     coverageDiffPerc: coverageDiff,
