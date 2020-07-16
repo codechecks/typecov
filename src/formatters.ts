@@ -27,6 +27,10 @@ export function formatShortDescription({
   return `Change: ${change} Total: ${total} New untyped symbols: ${newUntypedSymbols}`;
 }
 
+export function round(n: number): number {
+  return Math.round((n + Number.EPSILON) * 100) / 100;
+}
+
 export function perc(n: number): string {
   return n.toFixed(2) + "%";
 }
