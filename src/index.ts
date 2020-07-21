@@ -2,7 +2,7 @@ import { codechecks, CodeChecksReport } from "@codechecks/client";
 import { lint as getTypeCoverageInfo } from "type-coverage-core";
 import { RawTypeCoverageReport, TypeCoverageArtifact, Options, SymbolInfo, NormalizedOptions } from "./types";
 import { groupBy } from "lodash";
-import { formatShortDescription, perc, getDescriptionAboutThreshold, round } from "./formatters";
+import { formatShortDescription, perc, getDescriptionAboutThreshold } from "./formatters";
 
 export async function typecov(_options: Options = {}): Promise<void> {
   const options = normalizeOptions(_options);
@@ -33,11 +33,11 @@ function getReport(
   baseTypeCoverageArtifact: TypeCoverageArtifact | undefined,
   options: NormalizedOptions,
 ): CodeChecksReport {
-  const headTypeCoverage = round((headTypeCoverageArtifact.typedSymbols / headTypeCoverageArtifact.totalSymbols) * 100);
+  const headTypeCoverage = (headTypeCoverageArtifact.typedSymbols / headTypeCoverageArtifact.totalSymbols) * 100;
   const baseTypeCoverage = baseTypeCoverageArtifact
-    ? round((baseTypeCoverageArtifact.typedSymbols / baseTypeCoverageArtifact.totalSymbols) * 100)
+    ? (baseTypeCoverageArtifact.typedSymbols / baseTypeCoverageArtifact.totalSymbols) * 100
     : 0;
-  const coverageDiff = round(headTypeCoverage - baseTypeCoverage);
+  const coverageDiff = headTypeCoverage - baseTypeCoverage;
 
   const newUntypedSymbols = findNew(
     headTypeCoverageArtifact.allUntypedSymbols,

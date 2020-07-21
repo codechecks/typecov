@@ -235,7 +235,7 @@ Minimum acceptable type coverage: 100.00% — ✅
 `);
   });
 
-  it("should avoid rounding errors", async () => {
+  it("should round down coverage", async () => {
     codechecksMock.isPr.mockReturnValue(true);
     typeCoverageMock.mockReturnValue({
       correctCount: 26,
@@ -244,18 +244,19 @@ Minimum acceptable type coverage: 100.00% — ✅
       program: undefined as any,
     });
 
+    // 26/64 = 40.625% which is < 40.63
     await typecov({ tsconfigPath: "./tsconfig.json", atLeast: 40.63 });
     expect(codechecks.report).toMatchInlineSnapshot(`
 [MockFunction] {
   "calls": Array [
     Array [
       Object {
-        "longDescription": "### Current type coverage: 40.63%
-Minimum acceptable type coverage: 40.63% — ✅
+        "longDescription": "### Current type coverage: 40.62%
+Minimum acceptable type coverage: 40.63% — 🔴
 ### New untyped symbols: 0",
         "name": "TypeCov",
         "shortDescription": "New type coverage report!",
-        "status": "success",
+        "status": "failure",
       },
     ],
   ],
