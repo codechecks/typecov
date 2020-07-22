@@ -27,8 +27,16 @@ export function formatShortDescription({
   return `Change: ${change} Total: ${total} New untyped symbols: ${newUntypedSymbols}`;
 }
 
-export function perc(n: number): string {
-  return n.toFixed(2) + "%";
+export function floor(n: number, precision = 2): number {
+  const factor = Math.pow(10, precision);
+
+  return Math.floor(n * factor) / factor;
+}
+
+export function perc(n: number, precision = 2): string {
+  // Round down when losing precision to err on the side of caution.
+  // E.g. 99.9999% is still less than 100% so should render as 99.99% instead.
+  return floor(n, precision).toFixed(precision) + "%";
 }
 
 export function renderSign(value: number): string {
